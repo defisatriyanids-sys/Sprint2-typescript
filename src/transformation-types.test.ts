@@ -1,5 +1,6 @@
-// import { describe, expect, it } from "vitest";
-// import { Equal, Expect } from "./helpers/type-utils";
+import { describe, expect, it, Vitest } from "vitest";
+import { Equal, Expect } from "./helpers/type-utils";
+import test from "node:test";
 
 // /*
 // Repte 1:
@@ -7,14 +8,13 @@
 // Pista: pots utilitzar typeof per obtenir el tipus d'una variable o funció.
 // */
 // describe("Transformació: obtenir el tipus de retorn d'una funció", () => {
-//   const myFunc = () => {
+//   const myFunc= (text: string) => {
 //     return "hello";
 //   };
-
 //   /**
 //    * Com podem extreure MyFuncReturn a partir de myFunc?
 //   //  */
-//   type MyFuncReturn = unknown;
+//   type MyFuncReturn = ReturnType<typeof myFunc>;
 
 //   type tests = [Expect<Equal<MyFuncReturn, string>>];
 // });
@@ -35,7 +35,7 @@
 //     },
 //   ) => {};
 
-//   type MakeQueryParameters = unknown;
+//   type MakeQueryParameters = Parameters<typeof makeQuery>;
 
 //   type tests = [
 //     Expect<
@@ -72,7 +72,16 @@
 //   type ReturnValue = ReturnType<typeof getUser>;
 
 //   type tests = [
-//     Expect<Equal<ReturnValue, { id: string; name: string; email: string }>>,
+//     Expect<
+//       Equal<
+//         ReturnValue,
+//         Promise<{
+//           id: string;
+//           name: string;
+//           email: string;
+//         }>
+//       >
+//     >,
 //   ];
 // });
 
@@ -93,7 +102,7 @@
 //     },
 //   };
 
-//   type TestingFramework = unknown;
+//   type TestingFramework = keyof typeof testingFrameworks;
 
 //   type tests = [Expect<Equal<TestingFramework, "vitest" | "jest" | "mocha">>];
 // });
@@ -111,11 +120,11 @@
 //     ID: "id",
 //   };
 
-//   type StringType = unknown;
-//   type IntType = unknown;
-//   type FloatType = unknown;
-//   type BooleanType = unknown;
-//   type IDType = unknown;
+//   type StringType = typeof fakeDataDefaults["String"];
+//   type IntType = typeof fakeDataDefaults["Int"];
+//   type FloatType = typeof fakeDataDefaults["Float"];
+//   type BooleanType = typeof fakeDataDefaults["Boolean"];
+//   type IDType = typeof fakeDataDefaults["ID"];
 
 //   type tests = [
 //     Expect<Equal<StringType, string>>,
@@ -140,7 +149,7 @@
 //     PLANNED_SELF_DIRECTED: "plannedSelfDirected",
 //   } as const;
 
-//   type IndividualProgram = unknown;
+//   type IndividualProgram = typeof programModeEnumMap ["ONE_ON_ONE" | "SELF_DIRECTED" | "PLANNED_ONE_ON_ONE" | "PLANNED_SELF_DIRECTED"];
 
 //   type tests = [
 //     Expect<
@@ -157,10 +166,10 @@
 // Utilitza indexed access types i unions per obtenir el tipus dels valors d'un array.
 // */
 // describe("Transformació: obtenir el tipus dels valors d'un array", () => {
-//   const fruits = ["apple", "banana", "orange"];
+//   const fruits = ["apple", "banana", "orange"] as const;
 
-//   type AppleOrBanana = unknown;
-//   type Fruit = unknown;
+//   type AppleOrBanana = (typeof fruits)[0 | 1];
+//   type Fruit = typeof fruits[number];
 
 //   type tests = [
 //     Expect<Equal<AppleOrBanana, "apple" | "banana">>,
@@ -179,7 +188,7 @@
 //     sharedModule: "SHARED_MODULE",
 //   } as const;
 
-//   type BackendModuleEnum = unknown;
+//   type BackendModuleEnum = typeof frontendToBackendEnumMap ["singleModule" | "multiModule" | "sharedModule"]
 
 //   type tests = [
 //     Expect<
@@ -203,7 +212,7 @@
 //    * Quina és quina?
 //    */
 
-//   type A =
+//   type A = // es una discriminated union
 //     | {
 //         type: "a";
 //         a: string;
@@ -217,9 +226,9 @@
 //         c: string;
 //       };
 
-//   type B = "a" | "b" | "c";
+//   type B = "a" | "b" | "c"; // es una union
 
-//   enum C {
+//   enum C { //es un enum
 //     A = "a",
 //     B = "b",
 //     C = "c",
@@ -245,7 +254,7 @@
 //         event: KeyboardEvent;
 //       };
 
-//   type ClickEvent = unknown;
+//   type ClickEvent = Extract<Event, { type: "click" }>;
 
 //   type tests = [Expect<Equal<ClickEvent, { type: "click"; event: MouseEvent }>>];
 // });
@@ -269,7 +278,7 @@
 //         event: KeyboardEvent;
 //       };
 
-//   type NonKeyDownEvents = unknown;
+//   type NonKeyDownEvents = Exclude<Event, {type: "keydown"}>;
 
 //   type tests = [
 //     Expect<
@@ -301,12 +310,12 @@
 //         event: KeyboardEvent;
 //       };
 
-//   type EventType = unknown;
+//   type EventType = Event["type"]
 
 //   type tests = [Expect<Equal<EventType, "click" | "focus" | "keydown">>];
 // });
 
-// /* 
+/* 
 // Repte 13:
 // Utilitza l'array per resoldre els dos tipus: 
 // - AppleOrBanana, que ha de ser una unió dels dos primers valors de l'array ("apple" | "banana").
@@ -318,14 +327,15 @@
 //  */
 
 // describe("Transformació: obtenir el tipus a partir d'un array de valors", () => {
-// const fruits = ["apple", "banana", "orange"];
+// const fruits = ["apple", "banana", "orange"] as const;
 
-// type AppleOrBanana = unknown;
-// type Fruit = unknown;
+//  type AppleOrBanana = (typeof fruits)[0 | 1] ;
+//  type Fruit = typeof fruits[number];
 
 // type tests = [
 //   Expect<Equal<AppleOrBanana, "apple" | "banana">>,
 //   Expect<Equal<Fruit, "apple" | "banana" | "orange">>,
 // ];
 // });
+
 
