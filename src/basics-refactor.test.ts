@@ -1,33 +1,31 @@
 import { assertType, describe, expect, expectTypeOf, it } from "vitest";
 import { Equal, Expect } from "./helpers/type-utils";
+import { resolve } from "path";
 
-/*
-Repte 1:
-Llegeix l'article:
- ["Migrating from JavaScript" a la documentació de TypeScript](https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html)
- i mira si pots trobar com solucionar aquests errors de TypeScript.
-*/
+// /*
+// Repte 1:
+// Llegeix l'article:
+//  ["Migrating from JavaScript" a la documentació de TypeScript](https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html)
+//  i mira si pots trobar com solucionar aquests errors de TypeScript.
+// */
 
-describe("Problema de nombres", () => {
-  it("Ha de sumar els dos nombres", () => {
-    const addTwoNumbers = (a, b) => {
-      return a + b;
-    };
-    expectTypeOf(addTwoNumbers).parameter(0).toEqualTypeOf<number>();
-    expectTypeOf(addTwoNumbers).parameter(1).toEqualTypeOf<number>();
-  });
-});
+// describe("Problema de nombres", () => {
+//   it("Ha de sumar els dos nombres", () => {
+//     const addTwoNumbers = (a: number, b: number) => {
+//       return a + b;
+//     };
+//     expectTypeOf(addTwoNumbers).parameter(0).toEqualTypeOf<number>();
+//     expectTypeOf(addTwoNumbers).parameter(1).toEqualTypeOf<number>();
+//   });
+// });
 
-/*
-Repte 2:
-Descobreix com tipar params com un objecte amb una clau first que sigui un nombre i una clau second que també sigui un nombre.
-*/
+// /*
+// Repte 2:
+// Descobreix com tipar params com un objecte amb una clau first que sigui un nombre i una clau second que també sigui un nombre.
+// */
 
 // describe("Problema de paràmetre objecte", () => {
 //   it("Ha de sumar els dos nombres", () => {
-//     const addTwoNumbers = (params:{first:number,second:number}) => {
-//       return params.first + params.second;
-//     };
 //     expect(
 //       addTwoNumbers({
 //         first: 2,
@@ -42,18 +40,23 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //       })
 //     ).toEqual(30);
 //   });
-//   expectTypeOf(addTwoNumbers).parameter(0).toEqualTypeOf<{ first: number; second: number }>();
 
+//   const addTwoNumbers = (params: { first: number; second: number }) => {
+//     return params.first + params.second;
+//   };
+
+//   expectTypeOf(addTwoNumbers).parameter(0).toEqualTypeOf<{ first: number; second: number }>();
+// });
 
 // });
 
-// /*
-// Repte 3:
-// Has d'esbrinar com tipar l'objecte perquè 'last' sigui opcional.
-// */
+// // /*
+// // Repte 3:
+// // Has d'esbrinar com tipar l'objecte perquè 'last' sigui opcional.
+// // */
 
 // describe("Problema de propietats opcionals", () => {
-//   const getName = (params: { first: string; last: string }) => {
+//   const getName = (params: { first: string; last?: string }) => {
 //     if (params.last !== undefined) {
 //       return `${params.first} ${params.last}`;
 //     }
@@ -78,13 +81,13 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   });
 // });
 
-// /*
+// // 
 // Repte 4:
 // Has d'esbrinar com marcar el paràmetre 'last' com a opcional.
 // */
 
 // describe("Problema de paràmetres opcionals", () => {
-//   const getName = (first: string, last: string) => {
+//   const getName = (first: string, last?: string) => {
 //     if (last !== undefined) {
 //       return `${first} ${last}`;
 //     }
@@ -104,10 +107,10 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   });
 // });
 
-// /*
-// Repte 5:
-// Consulta la [documentació de TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html) i determina com canviar defaultUser perquè el test passi.
-// */
+// // /*
+// // Repte 5:
+// // Consulta la [documentació de TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html) i determina com canviar defaultUser perquè el test passi.
+// // */
 
 // describe("Problema d'assignació de tipus a variables", () => {
 //   interface User {
@@ -121,7 +124,12 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //    * Com ens assegurem que defaultUser sigui de tipus User
 //    * EN AQUESTA LÍNIA - no més endavant al codi?
 //    */
-//   const defaultUser = {};
+//   const defaultUser: User = {
+//     id: 1,
+//     firstName: "Jen",
+//     lastName: "Simmons",
+//     isAdmin: true,
+//   };
 
 //   const getUserId = (user: User) => {
 //     return user.id;
@@ -132,23 +140,17 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   });
 // });
 
-// /*
-// Repte 6:
-// Actualitza la interfície User per restringir la propietat role a una de les opcions establertes.
-// El valor I_SHOULD_NOT_BE_ALLOWED hauria de provocar un error, eliminant la línia vermella sota el comentari // @ts-expect-error.
-// */
+// // /*
+// // Repte 6:
+// // Actualitza la interfície User per restringir la propietat role a una de les opcions establertes.
+// // El valor I_SHOULD_NOT_BE_ALLOWED hauria de provocar un error, eliminant la línia vermella sota el comentari // @ts-expect-error.
+// // */
 // describe("Problema d'unions", () => {
 //   interface User {
 //     id: number;
 //     firstName: string;
 //     lastName: string;
-//     /**
-//      * Com ens assegurem que role només sigui un dels següents:
-//      * - 'admin'
-//      * - 'user'
-//      * - 'super-admin'
-//      */
-//     role: string;
+//     role: "admin" | "user" | "super-admin";
 //   }
 
 //   const defaultUser: User = {
@@ -160,17 +162,17 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   };
 // });
 
-// /*
-// Repte 7:
-// Has de solucionar aquest error de tipus esbrinant com representar arrays.
-// */
+// // /*
+// // Repte 7:
+// // Has de solucionar aquest error de tipus esbrinant com representar arrays.
+// // */
 // describe("Problema d'arrays", () => {
 //   interface User {
 //     id: number;
 //     firstName: string;
 //     lastName: string;
 //     role: "admin" | "user" | "super-admin";
-//     posts: Post;
+//     posts: Post[];
 //   }
 
 //   interface Post {
@@ -196,10 +198,10 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   };
 // });
 
-// /*
-// Repte 8:
-// Anota la funció makeUser perquè sempre retorni un User.
-// */
+// // /*
+// // Repte 8:
+// // Anota la funció makeUser perquè sempre retorni un User.
+// // */
 // describe("Problema d'anotacions de tipus de retorn de funció", () => {
 //   interface User {
 //     id: number;
@@ -218,8 +220,19 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //    * Com ens assegurem que makeUser SEMPRE
 //    * retorni un usuari?
 //    */
-//   const makeUser = () => {
-//     return {};
+//  const makeUser = (): User => {
+//     return {
+//       id: 1,
+//       firstName: "Jen",
+//       lastName: "Simmons",
+//       role: "admin",
+//       posts: [
+//         {
+//           id: 1,
+//           title: "Com aprenc TypeScript",
+//         },
+//       ],
+//     };
 //   };
 
 //   it("Ha de retornar un usuari vàlid", () => {
@@ -235,10 +248,10 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   });
 // });
 
-// /*
-// Repte 9:
-// Has d'esbrinar com actualitzar l'anotació del tipus de retorn perquè TypeScript estigui satisfet.
-// */
+// // /*
+// // Repte 9:
+// // Has d'esbrinar com actualitzar l'anotació del tipus de retorn perquè TypeScript estigui satisfet.
+// // */
 
 // describe("Problema de promeses", () => {
 //   interface LukeSkywalker {
@@ -252,7 +265,7 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //     gender: string;
 //   }
 
-//   const fetchLukeSkywalker = async (): LukeSkywalker => {
+//   async function fetchLukeSkywalker(): Promise<LukeSkywalker[]> {
 //     const data = await fetch("https://swapi.py4e.com/api/people/1").then(
 //       (res) => {
 //         return res.json();
@@ -268,13 +281,13 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   });
 // });
 
-// /*
-// Repte 10:
-// Actualitza guitarists perquè estigui tipat com un Set de strings.
-// */
+// // /*
+// // Repte 10:
+// // Actualitza guitarists perquè estigui tipat com un Set de strings.
+// // */
 
 // describe("Problema de Set", () => {
-//   const guitarists = new Set();
+//   const guitarists = new Set <string>();
 
 //   guitarists.add("Jimi Hendrix");
 //   guitarists.add("Eric Clapton");
@@ -296,16 +309,16 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   });
 // });
 
-// /*
-// Repte 11:
-// Consulta la documentació de TypeScript i esbrina què pot estar causant aquest problema.
-// Actualitza cache perquè estigui tipat correctament i els errors desapareguin.
-// Pista: Consulta com representar objectes amb claus de tipus string i valors tipats.
-// */
+// // /*
+// // Repte 11:
+// // Consulta la documentació de TypeScript i esbrina què pot estar causant aquest problema.
+// // Actualitza cache perquè estigui tipat correctament i els errors desapareguin.
+// // Pista: Consulta com representar objectes amb claus de tipus string i valors tipats.
+// // */
 
 // describe("Problema de Record", () => {
 //   const createCache = () => {
-//     const cache = {};
+//     const cache : Record<string, string> = {};
 
 //     const add = (id: string, value: string) => {
 //       cache[id] = value;
@@ -340,14 +353,19 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   });
 // });
 
-// /*
-// Repte 12:
-// Escriu la funció perquè els tests passin.
-// Pista: utilitza typeof per diferenciar entre nombre i objecte.
-// */
+// // /*
+// // Repte 12:
+// // Escriu la funció perquè els tests passin.
+// // Pista: utilitza typeof per diferenciar entre nombre i objecte.
+// // */
 
 // describe("Problema de filtratge amb typeof", () => {
-//   const coerceAmount = (amount: number | { amount: number }) => {};
+//   const coerceAmount = (amount: number | { amount: number }) => {
+//   if (typeof amount === "number"){
+//      return amount;
+//   }
+//   return amount.amount;
+// }
 
 //   it("Ha de retornar l'import quan es passa un objecte", () => {
 //     expect(coerceAmount({ amount: 20 })).toEqual(20);
@@ -358,11 +376,12 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   });
 // });
 
-// /*
-// Repte 13:
-// Has de convertir el tipus 'unknown' en un tipus on sàpigues què és.
-// Pista: hi ha diverses maneres de resoldre aquest repte, prova diferents opcions!
-// */
+
+// // /*
+// // Repte 13:
+// // Has de convertir el tipus 'unknown' en un tipus on sàpigues què és.
+// // Pista: hi ha diverses maneres de resoldre aquest repte, prova diferents opcions!
+// // */
 
 // describe("Problema de blocs catch", () => {
 //   const tryCatchDemo = (state: "fail" | "succeed") => {
@@ -370,40 +389,46 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //       if (state === "fail") {
 //         throw new Error("Failure!");
 //       }
-//     } catch (e) {
+//     } catch (e: unknown) {
+//       if (e instanceof Error){
 //       return e.message;
 //     }
 //   };
+// }
 
 //   it("Ha de retornar el missatge quan falla", () => {
 //     expect(tryCatchDemo("fail")).toEqual("Failure!");
 //   });
 // });
 
-// /*
-// Repte 14:
-//  Aquí, la propietat id es comparteix entre les tres
-//  interfícies. Pots trobar una manera de refactoritzar això per
-//  fer-ho més DRY?
-//  Aquest exercici no genera error inicial.
-//  L'objectiu és refactoritzar el codi per fer-lo més reutilitzable.
-//  Pista: pots crear una interfície base i reutilitzar-la amb extends.
-// */
+// // /*
+// // Repte 14:
+// //  Aquí, la propietat id es comparteix entre les tres
+// //  interfícies. Pots trobar una manera de refactoritzar això per
+// //  fer-ho més DRY?
+// //  Aquest exercici no genera error inicial.
+// //  L'objectiu és refactoritzar el codi per fer-lo més reutilitzable.
+// //  Pista: pots crear una interfície base i reutilitzar-la amb extends.
+// // */
 
 // describe("Problema d'herència amb extends", () => {
-//   interface User {
+
+//   interface Person {
+//     id: string;
+//   }
+//   interface User extends Person{
 //     id: string;
 //     firstName: string;
 //     lastName: string;
 //   }
 
-//   interface Post {
+//   interface Post extends Person {
 //     id: string;
 //     title: string;
 //     body: string;
 //   }
 
-//   interface Comment {
+//   interface Comment extends Person{
 //     id: string;
 //     comment: string;
 //   }
@@ -425,6 +450,7 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //     id: string;
 //     firstName: string;
 //     lastName: string;
+//     posts: Post[];
 //   }
 
 //   interface Post {
@@ -433,7 +459,7 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //     body: string;
 //   }
 
-//   const getDefaultUserAndPosts = (): unknown => {
+//   const getDefaultUserAndPosts = (): User & { posts: Post[] } => {
 //     return {
 //       id: "1",
 //       firstName: "Jen",
@@ -451,10 +477,10 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //   const userAndPosts = getDefaultUserAndPosts();
 
 //   console.log(userAndPosts.posts[0]);
-//   
+  
 //   it("Ha de retornar usuari amb posts", () => {
 //    const userAndPosts = getDefaultUserAndPosts();
-//
+
 //    expect(userAndPosts.posts[0].id).toBeTypeOf("string");
 //   });
 // });
@@ -478,7 +504,7 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 //    * firstName i lastName de User?
 //    */
 
-//   type MyType = unknown;
+//   type MyType = Omit<User, "id">;
 
 //   type tests = [Expect<Equal<MyType, { firstName: string; lastName: string }>>];
 // });
@@ -488,68 +514,72 @@ Descobreix com tipar params com un objecte amb una clau first que sigui un nombr
 // La funció 'onFocusChange' is actualment 'unknown'. Visita la documentació de TypeScript i esbrina el tipus apropiat per la funció.
 // */
 
-// describe("Problema de tipus de funció", () => {
+describe("Problema de tipus de funció", () => {
 
-//   const addListener = (onFocusChange: unknown) => {
-//     window.addEventListener("focus", () => {
-//       onFocusChange(true);
-//     });
+  const addListener = (onFocusChange: (isFocused: boolean) => void) => {
+    if(typeof window !== "undefined") {
+    window.addEventListener("focus", () => {
+      onFocusChange(true);
+    });
 
-//     window.addEventListener("blur", () => {
-//       onFocusChange(false);
-//     });
-//   };
+    window.addEventListener("blur", () => {
+      onFocusChange(false);
+    });
+  };
+}
+  
 
-//   addListener((isFocused) => {
-//     console.log({ isFocused });
+  addListener((isFocused) => {
+    console.log({ isFocused });
+    type tests = [Expect<Equal<typeof isFocused, boolean>>];
+  });
+});
 
-//     type tests = [Expect<Equal<typeof isFocused, boolean>>];
-//   });
-// });
+// // /*
+// // Repte 18:
+// // Tipa les funcions perquè els errors desapareguin.
+// // Consulta la sintaxi de tipatge de funcions i Promise que hem vist anteriorment per ajudar-te.
+// // */
 
-// /*
-// Repte 18:
-// Tipa les funcions perquè els errors desapareguin.
-// Consulta la sintaxi de tipatge de funcions i Promise que hem vist anteriorment per ajudar-te.
-// */
+describe("Problema de tipus de funció amb promeses", () => {
 
-// describe("Problema de tipus de funció amb promeses", () => {
+    interface User {
+        id: string;
+        firstName: string;
+        lastName: string;
+      };
 
-//     interface User {
-//         id: string;
-//         firstName: string;
-//         lastName: string;
-//       }
+      const createThenGetUser = async (
+        createUser: () => Promise<string>,
+        getUser: (id: string) => Promise<User>,
+      ): Promise<User> => {
+        const userId: string = await createUser();
       
-//       const createThenGetUser = async (
-//         createUser: unknown,
-//         getUser: unknown,
-//       ): Promise<User> => {
-//         const userId: string = await createUser();
+        const user = await getUser(userId);
       
-//         const user = await getUser(userId);
-      
-//         return user;
-//       };
+        return user;
+      };
       
 
-//   it("Ha de crear l'usuari i després obtenir-lo", async () => {
-//     const user = await createThenGetUser(
-//       async () => "123",
-//       async (id) => ({
-//         id,
-//         firstName: "Jen",
-//         lastName: "Simmons",
-//       })
-//     );
+  it("Ha de crear l'usuari i després obtenir-lo", async () => {
+    const user = await createThenGetUser(
+      async () => "123",
+      async (id) => ({
+        id,
+        firstName: "Jen",
+        lastName: "Simmons",
+      })
+    );
 
-//     expect(user).toEqual({
-//       id: "123",
-//       firstName: "Jen",
-//       lastName: "Simmons",
-//     });
-//   });
-// });
+    expect(user).toEqual({
+      id: "123",
+      firstName: "Jen",
+      lastName: "Simmons",
+    });
+  });
+});
+
+
 
 // /*
 // Repte:
